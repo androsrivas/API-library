@@ -14,19 +14,19 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Long> getAll() {
+    public List<Book> getAll() {
         return bookRepository.findAll();
     }
 
     public Book getBookByTitle(String title) {
-        return bookRepository.findBookByContainingTitle(title);
+        return bookRepository.findBookByTitleContaining(title);
     }
 
     public List<Book> getBooksByAuthor(String author) {
-        return bookRepository.findBooksByContainingAuthor(author);
+        return bookRepository.findBooksByAuthorsContaining(author);
     }
 
     public List<Book> getBooksByGenre(String genre) {
-        return bookRepository.findBooksByContainingGenre(genre);
+        return bookRepository.findBooksByGenresContaining(genre);
     }
 }
