@@ -8,13 +8,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BookRepository extends JpaRepository<Long, Book> {
-    @Query("SELECT b FROM books b WHERE b.title = ?1")
-    public Book findBookByContainingTitle(String title);
+public interface BookRepository extends JpaRepository<Book, Long> {
+    @Query("SELECT b FROM Book b WHERE b.title LIKE %?1%")
+    Book findBookByTitleContaining(String title);
 
-    @Query("SELECT b FROM books b WHERE b.author = ?1")
-    public List<Book> findBooksByContainingAuthor(String author);
+    @Query("SELECT b FROM Book b WHERE ?1 MEMBER OF b.authors")
+    List<Book> findBooksByAuthorsContaining(String author);
 
-    @Query("SELECT b FROM books b WHERE b.genre = ?1")
-    public List<Book> findBooksByContainingGenre(String genre);
+    @Query("SELECT b FROM Book b WHERE ?1 MEMBER OF b.genres")
+    List<Book> findBooksByGenresContaining(String genre);
 }
