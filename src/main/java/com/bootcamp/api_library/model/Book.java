@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "books")
@@ -11,7 +12,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, unique = true)
-    private Long id;
+    private UUID id;
 
     @Column(name = "title", nullable = false)
     public String title;
@@ -36,7 +37,7 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
