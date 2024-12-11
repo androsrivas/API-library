@@ -31,6 +31,8 @@ public class Book {
     @CollectionTable(name = "books_genres")
     public List<String> genres;
 
+    public Book() {}
+
     public Book(String title, String author, String isbn) {
         this.title = title;
         this.authors = Collections.singletonList(author);
