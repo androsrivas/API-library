@@ -24,12 +24,14 @@ public class BookService {
         return bookRepository.findBookById(id);
     }
 
-    public Optional<Book> getBookByTitle(String title) {
-        return bookRepository.findBookByTitleContaining(title);
+    public Optional<List<Book>> getBookByTitle(String title) {
+        List<Book> books = bookRepository.findBookByTitleContaining(title);
+        return Optional.ofNullable(books);
     }
 
     public Optional<List<Book>> getBooksByAuthor(String author) {
-        return bookRepository.findBooksByAuthors(author);
+        List<Book> books = bookRepository.findBooksByAuthors(author);
+        return Optional.ofNullable(books);
     }
 
     public Optional<List<Book>> getBooksByGenre(String genre) {
@@ -40,7 +42,7 @@ public class BookService {
         bookRepository.save(newBook);
     }
 
-    public void deleteBook(Book bookToDelete) {
-        bookRepository.delete(bookToDelete);
+    public void deleteBook(UUID id) {
+        bookRepository.deleteById(id);
     }
 }

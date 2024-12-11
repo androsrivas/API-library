@@ -27,7 +27,7 @@ public class BookController {
     }
 
     @GetMapping("/books/title")
-    public Optional<Book> getBookByTitle(@RequestParam String title) {
+    public Optional<List<Book>> getBookByTitle(@RequestParam String title) {
         return bookService.getBookByTitle(title);
     }
 
@@ -47,7 +47,7 @@ public class BookController {
     }
 
     @DeleteMapping("/books/{id}")
-    public void deleteBook(Book book) {
-        bookService.deleteBook(book);
+    public void deleteBook(@PathVariable UUID id) {
+        bookService.deleteBook(id);
     }
 }
