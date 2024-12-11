@@ -2,10 +2,7 @@ package com.bootcamp.api_library.controller;
 
 import com.bootcamp.api_library.model.Book;
 import com.bootcamp.api_library.service.BookService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,5 +39,15 @@ public class BookController {
     @GetMapping("/books/genre")
     public Optional<List<Book>> getBooksByGenre(@RequestParam String genre) {
         return bookService.getBooksByGenre(genre);
+    }
+
+    @PostMapping("/books")
+    public void createBook(Book newBook) {
+        bookService.addBook(newBook);
+    }
+
+    @DeleteMapping("/books/{id}")
+    public void deleteBook(Book book) {
+        bookService.deleteBook(book);
     }
 }
