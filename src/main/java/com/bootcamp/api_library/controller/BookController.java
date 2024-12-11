@@ -42,7 +42,7 @@ public class BookController {
     }
 
     @PostMapping("/books")
-    public void createBook(Book newBook) {
+    public void createBook(@RequestBody Book newBook) {
         bookService.addBook(newBook);
     }
 
