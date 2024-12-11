@@ -5,6 +5,8 @@ import com.bootcamp.api_library.respository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class BookService {
@@ -18,15 +20,19 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book getBookByTitle(String title) {
+    public Optional<Book> getBookById(UUID id) {
+        return bookRepository.findBookById(id);
+    }
+
+    public Optional<Book> getBookByTitle(String title) {
         return bookRepository.findBookByTitleContaining(title);
     }
 
-    public List<Book> getBooksByAuthor(String author) {
-        return bookRepository.findBooksByAuthorsContaining(author);
+    public Optional<List<Book>> getBooksByAuthor(String author) {
+        return bookRepository.findBooksByAuthors(author);
     }
 
-    public List<Book> getBooksByGenre(String genre) {
-        return bookRepository.findBooksByGenresContaining(genre);
+    public Optional<List<Book>> getBooksByGenre(String genre) {
+        return bookRepository.findBooksByGenres(genre);
     }
 }
