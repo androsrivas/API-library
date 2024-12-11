@@ -2,6 +2,10 @@ package com.bootcamp.api_library.controller;
 
 import com.bootcamp.api_library.model.Book;
 import com.bootcamp.api_library.service.BookService;
+import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,6 +48,16 @@ public class BookController {
     @PostMapping("/books")
     public void createBook(@RequestBody Book newBook) {
         bookService.addBook(newBook);
+    }
+
+    @PutMapping("/books/{id}")
+    public ResponseEntity<Book> updateBook(@PathVariable UUID id, @RequestBody Book bookDetails) {
+        try {
+            Book book = bookService.updateBook(id, bookDetails);
+            return new ResponseEntity<>(book, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/books/{id}")

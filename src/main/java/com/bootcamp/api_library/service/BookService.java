@@ -45,4 +45,19 @@ public class BookService {
     public void deleteBook(UUID id) {
         bookRepository.deleteById(id);
     }
+
+    public Book updateBook(UUID id, Book bookDetails) {
+        Optional<Book> foundBook = bookRepository.findBookById(id);
+
+        if(foundBook.isPresent()) {
+            Book book = foundBook.get();
+            book.setTitle(bookDetails.getTitle());
+            book.setAuthors(bookDetails.getAuthors());
+            book.setIsbn(bookDetails.getIsbn());
+
+            return bookRepository.save(book);
+        }
+
+        throw new RuntimeException("Book with id " + id + " not found.");
+    }
 }
