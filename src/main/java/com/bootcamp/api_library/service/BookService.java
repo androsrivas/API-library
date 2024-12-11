@@ -35,4 +35,12 @@ public class BookService {
     public Optional<List<Book>> getBooksByGenre(String genre) {
         return bookRepository.findBooksByGenres(genre);
     }
+
+    public void addBook(Book newBook) {
+        bookRepository.save(newBook);
+    }
+
+    public void deleteBook(Book bookToDelete) {
+        bookRepository.delete(bookToDelete);
+    }
 }
