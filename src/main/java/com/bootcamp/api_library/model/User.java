@@ -13,7 +13,7 @@ public class User {
     private UUID id;
 
     @Column(name = "FullName", nullable = false)
-    protected String fulltName;
+    protected String fullName;
 
     @Column(name = "email", nullable = false)
     protected String email;
@@ -21,8 +21,10 @@ public class User {
     @Column(name = "password", nullable = false)
     protected String password;
 
+    public User() {}
+
     public User(String fullName, String email, String password) {
-        this.fulltName = fullName;
+        this.fullName = fullName;
         this.email = email;
         this.password = password;
     }
@@ -31,8 +33,8 @@ public class User {
         return id;
     }
 
-    public String getFulltName() {
-        return fulltName;
+    public String getFullName() {
+        return fullName;
     }
 
     public String getEmail() {
@@ -43,8 +45,8 @@ public class User {
         return password;
     }
 
-    public void setFulltName(String fulltName) {
-        this.fulltName = fulltName;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public void setEmail(String email) {
