@@ -33,10 +33,12 @@ public class Book {
 
     public Book() {}
 
-    public Book(String title, String author, String isbn) {
+    public Book(String title, String author, String isbn, String description, String genre) {
         this.title = title;
         this.authors = Collections.singletonList(author);
         this.isbn = isbn;
+        this.description = description;
+        this.genres = Collections.singletonList(genre);
     }
 
     public UUID getId() {
