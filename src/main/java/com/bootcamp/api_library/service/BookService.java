@@ -54,6 +54,8 @@ public class BookService {
             book.setTitle(bookDetails.getTitle());
             book.setAuthors(bookDetails.getAuthors());
             book.setIsbn(bookDetails.getIsbn());
+            book.setDescription(bookDetails.getDescription());
+            book.setGenres(bookDetails.getGenres());
 
             return bookRepository.save(book);
         }
