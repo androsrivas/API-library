@@ -1,10 +1,8 @@
 package com.bootcamp.api_library.controller;
 
 import com.bootcamp.api_library.model.Book;
-import com.bootcamp.api_library.service.BookService;
-import org.apache.coyote.Response;
+import com.bootcamp.api_library.service.Book.BookService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +20,7 @@ public class BookController {
 
     @GetMapping("/books")
     public List<Book> getAllBooks() {
-        return bookService.getAll();
+        return bookService.getAllBooks();
     }
 
     @GetMapping("/books/{id}")
