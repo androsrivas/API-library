@@ -1,10 +1,7 @@
 package com.bootcamp.api_library.controller;
 
 import com.bootcamp.api_library.model.Book;
-import com.bootcamp.api_library.service.Book.BookByAuthorService;
-import com.bootcamp.api_library.service.Book.BookByGenreService;
-import com.bootcamp.api_library.service.Book.BookByTitleService;
-import com.bootcamp.api_library.service.Book.BookService;
+import com.bootcamp.api_library.service.Book.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,33 +14,33 @@ import java.util.UUID;
 @RequestMapping("/api/v1/books")
 public class BookController {
     private final BookService bookService;
-    private final BookByTitleService bookByTitleService;
-    private final BookByAuthorService bookByAuthorService;
-    private final BookByGenreService bookByGenreService;
+    private final BookSearchService bookSearchService;
 
 
-    public BookController(BookService bookService, BookByTitleService bookByTitleService, BookByAuthorService bookByAuthorService, BookByGenreService bookByGenreService) {
+    public BookController(BookService bookService, BookSearchService bookSearchService) {
         this.bookService = bookService;
-        this.bookByTitleService = bookByTitleService;
-        this.bookByAuthorService = bookByAuthorService;
-        this.bookByGenreService = bookByGenreService;
+        this.bookSearchService = bookSearchService;
     }
 
     @PostMapping
     public ResponseEntity<Book> create(@RequestBody Book newBook) {
-        return ResponseEntity.status(201).body(bookService.createBook(newBook));
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.createBook(newBook));
     }
 
-    @GetMapping("/books")
-    public List<Book> getAll() {
-        return bookService.getAllBooks();
+    @GetMapping
+    public ResponseEntity<List<Book>> getAll() {
+        List<Book> books = bookService.getAllBooks();
+        if (books.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.ok(books);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Book> getById(@PathVariable UUID id) {
         return bookService.getBookById(id)
-                .map(book -> ResponseEntity.ok(book))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .map(book -> ResponseEntity.status(HttpStatus.OK).body(book))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).build());
     }
 
     @PutMapping("/{id}")
@@ -59,16 +56,20 @@ public class BookController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         if (bookService.deleteBook(id)) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-        return  ResponseEntity.notFound().build();
+        return  ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @GetMapping("/title/{title}")
-    public ResponseEntity<List<Book>> getByTitle(@PathVariable String title) {
-        List<Book> books = bookByTitleService.findByTitle(title);
+    @GetMapping("/search")
+    public ResponseEntity<List<Book>> searchBy(
+            @RequestParam Optional<String> title,
+            @RequestParam Optional<String> author,
+            @RequestParam Optional<String> genre) {
+        List<Book> books = bookSearchService.searchBooks(title, author, genre);
+
         return books.isEmpty()
-                ? ResponseEntity.notFound().build()
-                : ResponseEntity.ok(books);
+                ? ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+                : ResponseEntity.status(HttpStatus.OK).body(books);
     }
 }
