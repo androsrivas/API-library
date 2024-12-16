@@ -2,9 +2,7 @@ package com.bootcamp.api_library.model;
 
 import jakarta.persistence.*;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "books")
@@ -15,26 +13,34 @@ public class Book {
     private UUID id;
 
     @Column(name = "title", nullable = false)
-    public String title;
+    private String title;
 
-    @ElementCollection
-    @CollectionTable(name = "books_authors")
-    public List<String> authors;
+    @ManyToMany
+    @JoinTable(
+            name = "book_author",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id")
+    )
+    private Set<Author> authors = new HashSet<>();
 
     @Column(name = "isbn", nullable = false, unique = true)
-    public String isbn;
+    private String isbn;
 
     @Column(name = "description")
-    public String description;
+    private String description;
 
     @ElementCollection
     @CollectionTable(name = "books_genres")
-    public List<String> genres;
+    private List<String> genres;
 
-    public Book(String title, String author, String isbn) {
+    public Book() {}
+
+    public Book(String title, Author author, String isbn, String description, String genre) {
         this.title = title;
-        this.authors = Collections.singletonList(author);
+        this.authors = (Set<Author>) author;
         this.isbn = isbn;
+        this.description = description;
+        this.genres = Collections.singletonList(genre);
     }
 
     public UUID getId() {
@@ -45,7 +51,7 @@ public class Book {
         return title;
     }
 
-    public List<String> getAuthors() {
+    public Set<Author> getAuthors() {
         return authors;
     }
 
@@ -65,7 +71,7 @@ public class Book {
         this.title = title;
     }
 
-    public void setAuthors(List<String> authors) {
+    public void setAuthors(Set<Author> authors) {
         this.authors = authors;
     }
 
