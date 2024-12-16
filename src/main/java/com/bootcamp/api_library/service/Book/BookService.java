@@ -45,7 +45,11 @@ public class BookService {
         throw new RuntimeException("Book with id " + id + " not found.");
     }
 
-    public void deleteBook(UUID id) {
-        bookRepository.deleteById(id);
+    public boolean deleteBook(UUID id) {
+        if (bookRepository.existsById(id)) {
+            bookRepository.deleteById(id);
+            return true;
+        }
+        return  false;
     }
 }
