@@ -1,4 +1,4 @@
-package com.bootcamp.api_library.exceptions;
+package exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

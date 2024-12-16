@@ -1,4 +1,4 @@
-package com.bootcamp.api_library.exceptions;
+package exceptions;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {
