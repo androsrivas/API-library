@@ -11,12 +11,10 @@ import com.bootcamp.api_library.specification.TitleSearchSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 
 
 @Service
@@ -44,14 +42,18 @@ public class BookSearchService {
 
         List<Book> books = bookRepository.findAll(specification);
 
+        if(books.isEmpty()) {
+            return new ApiResponse("No books found matching the search criteria.");
+        }
+
         if (title.isPresent() || author.isPresent()) {
             return books.stream()
                     .map(book -> new BookDetailsDTO(
                             book.getId(),
                             book.getTitle(),
-                            book.getAuthors() != null ? book.getAuthors() : Collections.emptyList(), // Directamente usamos la lista de autores
+                            book.getAuthors() != null ? book.getAuthors() : Collections.emptyList(),
                             book.getDescription(),
-                            book.getGenres() != null ? book.getGenres() : Collections.emptyList() // Directamente usamos la lista de géneros
+                            book.getGenres() != null ? book.getGenres() : Collections.emptyList()
                     ))
                     .collect(Collectors.toList());
         }
