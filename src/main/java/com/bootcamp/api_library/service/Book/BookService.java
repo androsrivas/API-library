@@ -1,5 +1,6 @@
 package com.bootcamp.api_library.service.Book;
 
+import com.bootcamp.api_library.DTO.BookSummaryDTO;
 import com.bootcamp.api_library.model.Book;
 import com.bootcamp.api_library.respository.Book.BookRepository;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -20,8 +22,15 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    public List<BookSummaryDTO> getAllBooks() {
+        return bookRepository.findAll()
+                .stream()
+                .map(book -> new BookSummaryDTO(
+                        book.getId(),
+                        book.getTitle(),
+                        book.getAuthors(),
+                        book.getGenres()))
+                .collect(Collectors.toList());
     }
 
     public Optional<Book> getBookById(UUID id) {

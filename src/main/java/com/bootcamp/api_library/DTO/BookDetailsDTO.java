@@ -1,21 +1,24 @@
 package com.bootcamp.api_library.DTO;
 
+import com.bootcamp.api_library.model.Author;
+
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class BookDetailsDTO {
     private UUID id;
     private String title;
-    private List<String> author;
+    private List<String> authors;
     private String description;
-    private List<String> genre;
+    private List<String> genres;
 
-    public BookDetailsDTO(UUID id, String title, List<String> author, String description, List<String> genre) {
+    public BookDetailsDTO(UUID id, String title, List<String> authors, String description, List<String> genres) {
         this.id = id;
         this.title = title;
-        this.author = author;
+        this.authors = authors;
         this.description = description;
-        this.genre = genre;
+        this.genres = genres;
     }
 
     public UUID getId() {
@@ -26,31 +29,31 @@ public class BookDetailsDTO {
         return title;
     }
 
-    public List<String> getAuthor() {
-        return author;
+    public List<String> getAuthors() {
+        return authors;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public List<String> getGenre() {
-        return genre;
+    public List<String> getGenres() {
+        return genres;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public void setAuthor(List<String> author) {
-        this.author = author;
+    public void setAuthors(List<String> authors) {
+        this.authors = authors;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setGenre(List<String> genre) {
-        this.genre = genre;
+    public void setGenres(List<String> genres) {
+        this.genres = genres;
     }
 }
