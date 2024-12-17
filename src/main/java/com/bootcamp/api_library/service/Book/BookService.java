@@ -28,7 +28,9 @@ public class BookService {
                 .map(book -> new BookSummaryDTO(
                         book.getId(),
                         book.getTitle(),
-                        book.getAuthors(),
+                        book.getAuthors().stream()
+                                .map(author -> author.getName() + " " + author.getSurname())
+                                .collect(Collectors.toList()),
                         book.getGenres()))
                 .collect(Collectors.toList());
     }
