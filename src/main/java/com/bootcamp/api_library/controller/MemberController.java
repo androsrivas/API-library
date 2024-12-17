@@ -22,6 +22,7 @@ public class MemberController {
 
     @GetMapping("/members")
     public List<Member> getAll() {
+        return memberService.getAll();
     }
 
     @GetMapping("/members/{id}")

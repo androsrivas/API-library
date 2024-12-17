@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface BookAuthorRepository extends JpaRepository<Book, UUID> {
-    List<Book> findBookByAuthorContainingIgnoreCase(String author);
+    List<Book> findBookByAuthors_NameContainingIgnoreCase(String author);
 }
