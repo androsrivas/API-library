@@ -1,6 +1,5 @@
 package com.bootcamp.api_library.controller;
 
-import com.bootcamp.api_library.DTO.ApiResponse;
 import com.bootcamp.api_library.DTO.BookSummaryDTO;
 import com.bootcamp.api_library.model.Book;
 import com.bootcamp.api_library.service.Book.*;
@@ -64,16 +63,14 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Object> searchBy(
+    public ResponseEntity<List<Book>> searchBy(
             @RequestParam Optional<String> title,
             @RequestParam Optional<String> author,
             @RequestParam Optional<String> genre) {
-        Object response = bookSearchService.searchBooks(title, author, genre);
+        List<Book> books = bookSearchService.searchBooks(title, author, genre);
 
-        if(response instanceof ApiResponse) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        }
-
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return books.isEmpty()
+                ? ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+                : ResponseEntity.status(HttpStatus.OK).body(books);
     }
 }
