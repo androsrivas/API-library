@@ -6,13 +6,13 @@ import java.util.UUID;
 public class BookSummaryDTO {
     private UUID id;
     private String title;
-    private List<String> author;
+    private List<String> authors;
     private List<String> genre;
 
-    public BookSummaryDTO(UUID id, String title, List<String> author, List<String> genre) {
+    public BookSummaryDTO(UUID id, String title, List<String> authors, List<String> genre) {
         this.id = id;
         this.title = title;
-        this.author = author;
+        this.authors = authors;
         this.genre = genre;
     }
 
@@ -24,8 +24,8 @@ public class BookSummaryDTO {
         return title;
     }
 
-    public List<String> getAuthor() {
-        return author;
+    public List<String> getAuthors() {
+        return authors;
     }
 
     public List<String> getGenre() {
@@ -36,8 +36,8 @@ public class BookSummaryDTO {
         this.title = title;
     }
 
-    public void setAuthor(List<String> author) {
-        this.author = author;
+    public void setAuthors(List<String> author) {
+        this.authors = author;
     }
 
     public void setGenre(List<String> genre) {

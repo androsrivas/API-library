@@ -37,7 +37,8 @@ public class Book {
 
     public Book(String title, Author author, String isbn, String description, String genre) {
         this.title = title;
-        this.authors = (Set<Author>) author;
+        this.authors = new HashSet<>();
+        this.authors.add(author);
         this.isbn = isbn;
         this.description = description;
         this.genres = Collections.singletonList(genre);
