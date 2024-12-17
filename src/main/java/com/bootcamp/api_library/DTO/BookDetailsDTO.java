@@ -1,9 +1,6 @@
 package com.bootcamp.api_library.DTO;
 
-import com.bootcamp.api_library.model.Author;
-
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 public class BookDetailsDTO {

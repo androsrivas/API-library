@@ -36,8 +36,8 @@ public class BookSummaryDTO {
         this.title = title;
     }
 
-    public void setAuthors(List<String> author) {
-        this.authors = author;
+    public void setAuthors(List<String> authors) {
+        this.authors = authors;
     }
 
     public void setGenre(List<String> genre) {

@@ -15,13 +15,10 @@ public class Book {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @ManyToMany
-    @JoinTable(
-            name = "book_author",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id")
-    )
-    private Set<Author> authors = new HashSet<>();
+    @ElementCollection
+    @CollectionTable(name = "book_authors")
+    @Column(name = "author_name")
+    private List<String> authors = new ArrayList<>();
 
     @Column(name = "isbn", nullable = false, unique = true)
     private String isbn;
@@ -35,13 +32,12 @@ public class Book {
 
     public Book() {}
 
-    public Book(String title, Author author, String isbn, String description, String genre) {
+    public Book(String title, List<String> authors, String isbn, String description, String genre) {
         this.title = title;
-        this.authors = new HashSet<>();
-        this.authors.add(author);
+        this.authors = authors;
         this.isbn = isbn;
         this.description = description;
-        this.genres = Collections.singletonList(genre);
+        this.genres = genres != null ? genres : new ArrayList<>();
     }
 
     public UUID getId() {
@@ -52,7 +48,7 @@ public class Book {
         return title;
     }
 
-    public Set<Author> getAuthors() {
+    public List<String> getAuthors() {
         return authors;
     }
 
@@ -72,7 +68,7 @@ public class Book {
         this.title = title;
     }
 
-    public void setAuthors(Set<Author> authors) {
+    public void setAuthors(List<String> authors) {
         this.authors = authors;
     }
 

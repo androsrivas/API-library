@@ -11,13 +11,17 @@ import com.bootcamp.api_library.specification.TitleSearchSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
+
 @Service
 public class BookSearchService {
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     public BookSearchService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
@@ -40,37 +44,30 @@ public class BookSearchService {
 
         List<Book> books = bookRepository.findAll(specification);
 
-        if(title.isPresent() || author.isPresent()) {
+        if (title.isPresent() || author.isPresent()) {
             return books.stream()
                     .map(book -> new BookDetailsDTO(
                             book.getId(),
                             book.getTitle(),
-                            book.getAuthors().stream()
-                                    .map(a -> a.getName() + " " + a.getSurname())
-                                    .collect(Collectors.toList()),
+                            book.getAuthors() != null ? book.getAuthors() : Collections.emptyList(), // Directamente usamos la lista de autores
                             book.getDescription(),
-                            book.getGenres()))
+                            book.getGenres() != null ? book.getGenres() : Collections.emptyList() // Directamente usamos la lista de géneros
+                    ))
                     .collect(Collectors.toList());
         }
 
-        if(genre.isPresent()) {
+        if (genre.isPresent()) {
             return books.stream()
                     .map(book -> new BookSummaryDTO(
                             book.getId(),
                             book.getTitle(),
-                            book.getAuthors().stream()
-                                    .map(a -> a.getName() + " " + a.getSurname())
-                                    .collect(Collectors.toList()),
-                            book.getGenres()))
+                            book.getAuthors() != null ? book.getAuthors() : Collections.emptyList(),
+                            book.getGenres() != null ? book.getGenres() : Collections.emptyList()
+                    ))
                     .collect(Collectors.toList());
         }
 
-        return  new ApiResponse("No parameters provided. Please, specify a search parameter.");
+        // Si no se especificó ningún parámetro
+        return new ApiResponse("No parameters provided. Please, specify a search parameter.");
     }
 }
-
-
-
-
-
-
