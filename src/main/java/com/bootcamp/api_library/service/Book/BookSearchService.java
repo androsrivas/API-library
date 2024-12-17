@@ -30,15 +30,15 @@ public class BookSearchService {
     public Object searchBooks(Optional<String> title, Optional<String> author, Optional<String> genre) {
         Specification<Book> specification = Specification.where(null);
 
-        if (title.isPresent()) {
+        if (title.isPresent() && !title.get().isEmpty()) {
             specification = specification.and(new TitleSearchSpecification(title.get()).toSpecification());
         }
 
-        if (author.isPresent()) {
+        if (author.isPresent() && !author.get().isEmpty()) {
             specification = specification.and(new AuthorSearchSpecification(author.get()).toSpecification());
         }
 
-        if (genre.isPresent()) {
+        if (genre.isPresent() && !genre.get().isEmpty()) {
             specification = specification.and(new GenreSearchSpecification(genre.get()).toSpecification());
         }
 
@@ -66,8 +66,6 @@ public class BookSearchService {
                     ))
                     .collect(Collectors.toList());
         }
-
-        // Si no se especificó ningún parámetro
         return new ApiResponse("No parameters provided. Please, specify a search parameter.");
     }
 }

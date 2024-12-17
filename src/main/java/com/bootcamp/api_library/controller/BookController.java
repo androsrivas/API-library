@@ -1,5 +1,6 @@
 package com.bootcamp.api_library.controller;
 
+import com.bootcamp.api_library.DTO.BookSummaryDTO;
 import com.bootcamp.api_library.model.Book;
 import com.bootcamp.api_library.service.Book.*;
 import org.springframework.http.HttpStatus;
@@ -28,8 +29,8 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Book>> getAll() {
-        List<Book> books = bookService.getAllBooks();
+    public ResponseEntity<List<BookSummaryDTO>> getAll() {
+        List<BookSummaryDTO> books = bookService.getAllBooks();
         if (books.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
