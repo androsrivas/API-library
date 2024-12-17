@@ -27,8 +27,7 @@ public class BookService {
                         book.getId(),
                         book.getTitle(),
                         book.getAuthors() != null ? new ArrayList<>(book.getAuthors()) : Collections.emptyList(),
-                        book.getGenres() != null ? book.getGenres() : Collections.emptyList()
-                ))
+                        book.getGenres() != null ? book.getGenres() : Collections.emptyList()))
                 .collect(Collectors.toList());
     }
 
