@@ -1,5 +1,6 @@
 package com.bootcamp.api_library.controller;
 
+import com.bootcamp.api_library.DTO.ApiResponse;
 import com.bootcamp.api_library.DTO.BookSummaryDTO;
 import com.bootcamp.api_library.model.Book;
 import com.bootcamp.api_library.service.Book.*;
@@ -62,15 +63,23 @@ public class BookController {
         return  ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-//    @GetMapping("/search")
-//    public ResponseEntity<List<Book>> searchBy(
-//            @RequestParam Optional<String> title,
-//            @RequestParam Optional<String> author,
-//            @RequestParam Optional<String> genre) {
-//        List<Book> books = bookSearchService.searchBooks(title, author, genre);
-//
-//        return books.isEmpty()
-//                ? ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-//                : ResponseEntity.status(HttpStatus.OK).body(books);
-//    }
+    @GetMapping("/search")
+    public ResponseEntity<?> searchBy(
+            @RequestParam Optional<String> title,
+            @RequestParam Optional<String> author,
+            @RequestParam Optional<String> genre) {
+        Object result = bookSearchService.searchBooks(title, author, genre);
+
+        if(result instanceof ApiResponse) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+        } else if (result instanceof List) {
+            List<?> bookList = (List<?>) result;
+            if(!bookList.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.OK).body(bookList);
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ApiResponse("No parameters provided. Please, specify a search parameter."));
+        }
 }
