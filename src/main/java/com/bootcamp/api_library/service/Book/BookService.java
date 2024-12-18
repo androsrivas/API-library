@@ -1,12 +1,12 @@
 package com.bootcamp.api_library.service.Book;
 
+import com.bootcamp.api_library.DTO.BookSummaryDTO;
 import com.bootcamp.api_library.model.Book;
 import com.bootcamp.api_library.respository.Book.BookRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -20,8 +20,15 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    public List<BookSummaryDTO> getAllBooks() {
+        return bookRepository.findAll()
+                .stream()
+                .map(book -> new BookSummaryDTO(
+                        book.getId(),
+                        book.getTitle(),
+                        book.getAuthors() != null ? new ArrayList<>(book.getAuthors()) : Collections.emptyList(),
+                        book.getGenres() != null ? book.getGenres() : Collections.emptyList()))
+                .collect(Collectors.toList());
     }
 
     public Optional<Book> getBookById(UUID id) {
@@ -45,7 +52,11 @@ public class BookService {
         throw new RuntimeException("Book with id " + id + " not found.");
     }
 
-    public void deleteBook(UUID id) {
-        bookRepository.deleteById(id);
+    public boolean deleteBook(UUID id) {
+        if (bookRepository.existsById(id)) {
+            bookRepository.deleteById(id);
+            return true;
+        }
+        return  false;
     }
 }
