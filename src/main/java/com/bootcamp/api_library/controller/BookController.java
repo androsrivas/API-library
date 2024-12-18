@@ -62,15 +62,15 @@ public class BookController {
         return  ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<Book>> searchBy(
-            @RequestParam Optional<String> title,
-            @RequestParam Optional<String> author,
-            @RequestParam Optional<String> genre) {
-        List<Book> books = bookSearchService.searchBooks(title, author, genre);
-
-        return books.isEmpty()
-                ? ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-                : ResponseEntity.status(HttpStatus.OK).body(books);
-    }
+//    @GetMapping("/search")
+//    public ResponseEntity<List<Book>> searchBy(
+//            @RequestParam Optional<String> title,
+//            @RequestParam Optional<String> author,
+//            @RequestParam Optional<String> genre) {
+//        List<Book> books = bookSearchService.searchBooks(title, author, genre);
+//
+//        return books.isEmpty()
+//                ? ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+//                : ResponseEntity.status(HttpStatus.OK).body(books);
+//    }
 }
