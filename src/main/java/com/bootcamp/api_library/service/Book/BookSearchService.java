@@ -9,9 +9,7 @@ import com.bootcamp.api_library.specification.AuthorSearchSpecification;
 import com.bootcamp.api_library.specification.GenreSearchSpecification;
 import com.bootcamp.api_library.specification.TitleSearchSpecification;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +26,6 @@ public class BookSearchService {
     }
 
     public Object searchBooks(Optional<String> title, Optional<String> author, Optional<String> genre) {
-
         if (title.isEmpty() && author.isEmpty() && genre.isEmpty()) {
             return new ApiResponse("Please provide at least one search parameter.");
         }
