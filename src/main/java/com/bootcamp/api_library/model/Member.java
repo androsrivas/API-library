@@ -2,7 +2,7 @@ package com.bootcamp.api_library.model;
 
 import jakarta.persistence.*;
 
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "members")
@@ -20,6 +20,14 @@ public class Member {
 
     @Column(name = "password", nullable = false)
     protected String password;
+
+    @ManyToMany
+    @JoinTable(
+            name = "borrowed_books",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+    private Set<Book> borrowedBooks = new HashSet<>();
 
     public Member() {}
 
