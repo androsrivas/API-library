@@ -13,6 +13,6 @@ public class GenreSearchSpecification implements SearchSpecification {
     @Override
     public Specification<Book> toSpecification() {
         return (root, query, criteriaBuilder) ->
-                criteriaBuilder.like(criteriaBuilder.lower(root.get("genre")), "%" + genre.toLowerCase() + "%");
+                criteriaBuilder.isMember(genre, root.get("genres"));
     }
 }
