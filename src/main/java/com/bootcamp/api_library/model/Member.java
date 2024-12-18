@@ -53,6 +53,10 @@ public class Member {
         return password;
     }
 
+    public Set<Book> getBorrowedBooks() {
+        return borrowedBooks;
+    }
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
@@ -63,5 +67,9 @@ public class Member {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setBorrowedBooks(Set<Book> borrowedBooks) {
+        this.borrowedBooks = borrowedBooks;
     }
 }
