@@ -48,7 +48,7 @@ public class MemberService {
             return memberRepository.save(member);
         }
 
-        throw new ResourceNotFoundException("User with id " + memberDetails.getId() + " not found.");
+        throw new ResourceNotFoundException("User with id " + id + " not found.");
     }
 
 }
