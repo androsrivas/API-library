@@ -1,5 +1,6 @@
 package com.bootcamp.api_library.service;
 
+import com.bootcamp.api_library.exceptions.ResourceNotFoundException;
 import com.bootcamp.api_library.model.Member;
 import com.bootcamp.api_library.respository.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,9 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public Optional<Member> getMemberById(UUID id) {
-        return memberRepository.findById(id);
+    public Member getMemberById(UUID id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found."));
     }
 
     public void addMember(Member newMember) {
@@ -29,7 +31,9 @@ public class MemberService {
     }
 
     public void deleteMember(UUID id) {
-        memberRepository.deleteById(id);
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found."));
+        memberRepository.delete(member);
     }
 
     public Member updateMember(UUID id, Member memberDetails) {
@@ -44,7 +48,7 @@ public class MemberService {
             return memberRepository.save(member);
         }
 
-        throw new RuntimeException("User with email " + memberDetails.getEmail() + " not found.");
+        throw new ResourceNotFoundException("User with id " + memberDetails.getId() + " not found.");
     }
 
 }
