@@ -13,11 +13,18 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/api/v1")
 public class MemberController {
     private final MemberService memberService;
 
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
+    }
+
+    @PostMapping("/members")
+    public ResponseEntity create(@RequestBody Member newMember) {
+        memberService.addMember(newMember);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newMember);
     }
 
     @GetMapping("/members")
@@ -26,27 +33,20 @@ public class MemberController {
     }
 
     @GetMapping("/members/{id}")
-    public Optional<Member> getById(@PathVariable UUID id) {
-        return memberService.getMemberById(id);
-    }
-
-    @PostMapping("/members")
-    public void create(@RequestBody Member newMember) {
-        memberService.addMember(newMember);
+    public ResponseEntity<Member> getById(@PathVariable UUID id) {
+        Member member = memberService.getMemberById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(member);
     }
 
     @PutMapping("/members/{id}")
     public ResponseEntity<Member> update(@PathVariable UUID id, @RequestBody Member memberDetails) {
-        try {
-            Member member = memberService.updateMember(id, memberDetails);
-            return new ResponseEntity<>(member, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        Member member = memberService.updateMember(id, memberDetails);
+        return ResponseEntity.status(HttpStatus.OK).body(member);
     }
 
     @DeleteMapping("/members/{id}")
-    public void delete(@PathVariable UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         memberService.deleteMember(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
