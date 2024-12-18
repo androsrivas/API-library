@@ -30,6 +30,9 @@ public class Book {
     @CollectionTable(name = "books_genres")
     private List<String> genres;
 
+    @ManyToMany(mappedBy = "borrowedBooks")
+    private Set<Member> members = new HashSet<>();
+
     public Book() {}
 
     public Book(String title, List<String> authors, String isbn, String description, String genre) {
