@@ -21,13 +21,8 @@ public class Member {
     @Column(name = "password", nullable = false)
     protected String password;
 
-    @ManyToMany
-    @JoinTable(
-            name = "borrowed_books",
-            joinColumns = @JoinColumn(name = "member_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id")
-    )
-    private Set<Book> borrowedBooks = new HashSet<>();
+    @OneToMany(mappedBy = "member")
+    private List<Loan> loans = new ArrayList<>();
 
     public Member() {}
 
@@ -35,6 +30,16 @@ public class Member {
         this.fullName = fullName;
         this.email = email;
         this.password = password;
+    }
+
+    public void addLoan(Loan loan) {
+        loans.add(loan);
+        loan.setMember(this);
+    }
+
+    public void removeLoan(Loan loan) {
+        loans.remove(loan);
+        loan.setMember(null);
     }
 
     public UUID getId() {
@@ -53,8 +58,8 @@ public class Member {
         return password;
     }
 
-    public Set<Book> getBorrowedBooks() {
-        return borrowedBooks;
+    public List<Loan> getLoans() {
+        return loans;
     }
 
     public void setFullName(String fullName) {
@@ -69,7 +74,7 @@ public class Member {
         this.password = password;
     }
 
-    public void setBorrowedBooks(Set<Book> borrowedBooks) {
-        this.borrowedBooks = borrowedBooks;
+    public void setLoans(List<Loan> loans) {
+        this.loans = loans;
     }
 }
