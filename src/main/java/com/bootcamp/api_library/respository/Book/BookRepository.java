@@ -1,4 +1,4 @@
-package com.bootcamp.api_library.respository;
+package com.bootcamp.api_library.respository.Book;
 
 import com.bootcamp.api_library.model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
