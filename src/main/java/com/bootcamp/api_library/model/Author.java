@@ -2,8 +2,8 @@ package com.bootcamp.api_library.model;
 
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -20,18 +20,26 @@ public class Author {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "biography")
-    private String bio;
+    @Column(name = "date_of_birth")
+    private Date dateOfBirth;
+
+    @Column(name = "date_of_death")
+    private Date dateOfDeath;
+
+    @Column(name = "about")
+    private String about;
 
     @ManyToMany(mappedBy = "authors")
-    private Set<Book> books = new HashSet<>();
+    private List<Book> books;
 
     public Author() {};
 
-    public Author (String name, String surname, String bio) {
+    public Author (String name, String surname, Date dateOfBirth, Date dateOfDeath, String about) {
         this.name = name;
         this.surname = surname;
-        this.bio = bio;
+        this.dateOfBirth = dateOfBirth;
+        this.dateOfDeath = dateOfDeath;
+        this.about = about;
     }
 
     public UUID getId() {
@@ -46,11 +54,19 @@ public class Author {
         return surname;
     }
 
-    public String getBio() {
-        return bio;
+    public Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public Set<Book> getBooks() {
+    public Date getDateOfDeath() {
+        return dateOfDeath;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public List<Book> getBooks() {
         return books;
     }
 
@@ -62,11 +78,19 @@ public class Author {
         this.surname = surname;
     }
 
-    public void setBio(String bio) {
-        this.bio = bio;
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public void setBooks(Set<Book> books) {
+    public void setDateOfDeath(Date dateOfDeath) {
+        this.dateOfDeath = dateOfDeath;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public void setBooks(List<Book> books) {
         this.books = books;
     }
 }
