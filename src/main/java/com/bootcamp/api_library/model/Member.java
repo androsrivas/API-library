@@ -2,11 +2,11 @@ package com.bootcamp.api_library.model;
 
 import jakarta.persistence.*;
 
-import java.util.UUID;
+import java.util.*;
 
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "members")
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, unique = true)
@@ -21,12 +21,25 @@ public class User {
     @Column(name = "password", nullable = false)
     protected String password;
 
-    public User() {}
+    @OneToMany(mappedBy = "member")
+    private List<Loan> loans = new ArrayList<>();
 
-    public User(String fullName, String email, String password) {
+    public Member() {}
+
+    public Member(String fullName, String email, String password) {
         this.fullName = fullName;
         this.email = email;
         this.password = password;
+    }
+
+    public void addLoan(Loan loan) {
+        loans.add(loan);
+        loan.setMember(this);
+    }
+
+    public void removeLoan(Loan loan) {
+        loans.remove(loan);
+        loan.setMember(null);
     }
 
     public UUID getId() {
@@ -45,6 +58,10 @@ public class User {
         return password;
     }
 
+    public List<Loan> getLoans() {
+        return loans;
+    }
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
@@ -55,5 +72,9 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setLoans(List<Loan> loans) {
+        this.loans = loans;
     }
 }
