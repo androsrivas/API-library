@@ -1,7 +1,7 @@
 package com.bootcamp.api_library.controller;
 
 import com.bootcamp.api_library.DTO.ApiResponse;
-import com.bootcamp.api_library.DTO.BookSummaryDTO;
+import com.bootcamp.api_library.DTO.Book.BookSummaryDTO;
 import com.bootcamp.api_library.model.Book;
 import com.bootcamp.api_library.service.Book.*;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/books")
+@RequestMapping("/api/library/books")
 public class BookController {
     private final BookService bookService;
     private final BookSearchService bookSearchService;
@@ -26,21 +26,20 @@ public class BookController {
 
     @PostMapping
     public ResponseEntity<Book> create(@RequestBody Book newBook) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.createBook(newBook));
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.create(newBook));
     }
 
     @GetMapping
     public ResponseEntity<List<BookSummaryDTO>> getAll() {
-        List<BookSummaryDTO> books = bookService.getAllBooks();
-        if (books.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
+        List<BookSummaryDTO> books = bookService.readAll();
+        if (books.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
         return ResponseEntity.ok(books);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Book> getById(@PathVariable UUID id) {
-        return bookService.getBookById(id)
+        return bookService.readById(id)
                 .map(book -> ResponseEntity.status(HttpStatus.OK).body(book))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).build());
     }
@@ -48,7 +47,7 @@ public class BookController {
     @PutMapping("/{id}")
     public ResponseEntity<Book> update(@PathVariable UUID id, @RequestBody Book bookDetails) {
         try {
-            Book book = bookService.updateBook(id, bookDetails);
+            Book book = bookService.update(id, bookDetails);
             return new ResponseEntity<>(book, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -57,7 +56,7 @@ public class BookController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        if (bookService.deleteBook(id)) {
+        if (bookService.delete(id)) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         return  ResponseEntity.status(HttpStatus.NOT_FOUND).build();

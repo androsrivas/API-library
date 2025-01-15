@@ -1,4 +1,4 @@
-package com.bootcamp.api_library.DTO;
+package com.bootcamp.api_library.DTO.Book;
 
 import java.util.List;
 import java.util.UUID;
