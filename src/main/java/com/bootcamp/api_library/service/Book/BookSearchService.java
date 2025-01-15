@@ -1,10 +1,10 @@
 package com.bootcamp.api_library.service.Book;
 
 import com.bootcamp.api_library.DTO.ApiResponse;
-import com.bootcamp.api_library.DTO.BookDetailsDTO;
-import com.bootcamp.api_library.DTO.BookSummaryDTO;
+import com.bootcamp.api_library.DTO.Book.BookDetailsDTO;
+import com.bootcamp.api_library.DTO.Book.BookSummaryDTO;
 import com.bootcamp.api_library.model.Book;
-import com.bootcamp.api_library.respository.Book.BookRepository;
+import com.bootcamp.api_library.respository.BookRepository;
 import com.bootcamp.api_library.specification.AuthorSearchSpecification;
 import com.bootcamp.api_library.specification.GenreSearchSpecification;
 import com.bootcamp.api_library.specification.TitleSearchSpecification;
