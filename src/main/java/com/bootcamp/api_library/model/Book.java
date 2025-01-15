@@ -6,6 +6,10 @@ import java.util.*;
 
 @Entity
 @Table(name = "books")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -15,12 +19,15 @@ public class Book {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @ElementCollection
-    @CollectionTable(name = "book_authors")
-    @Column(name = "author_name")
-    private List<String> authors = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "book_author",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id")
+    )
+    private Set<Author> authors = new HashSet<>();
 
-    @Column(name = "isbn", nullable = false, unique = true)
+    @Column(name = "isbn", nullable = false)
     private String isbn;
 
     @Column(name = "description")
@@ -30,60 +37,4 @@ public class Book {
     @CollectionTable(name = "books_genres")
     private List<String> genres;
 
-    @ManyToMany(mappedBy = "borrowedBooks")
-    private Set<Member> members = new HashSet<>();
-
-    public Book() {}
-
-    public Book(String title, List<String> authors, String isbn, String description, String genre) {
-        this.title = title;
-        this.authors = authors;
-        this.isbn = isbn;
-        this.description = description;
-        this.genres = genres != null ? genres : new ArrayList<>();
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public List<String> getAuthors() {
-        return authors;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public List<String> getGenres() {
-        return genres;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setAuthors(List<String> authors) {
-        this.authors = authors;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setGenres(List<String> genres) {
-        this.genres = genres;
-    }
 }

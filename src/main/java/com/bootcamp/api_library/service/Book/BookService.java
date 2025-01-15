@@ -1,8 +1,9 @@
 package com.bootcamp.api_library.service.Book;
 
-import com.bootcamp.api_library.DTO.BookSummaryDTO;
+import com.bootcamp.api_library.DTO.Book.BookSummaryDTO;
+import com.bootcamp.api_library.exceptions.ResourceNotFoundException;
 import com.bootcamp.api_library.model.Book;
-import com.bootcamp.api_library.respository.Book.BookRepository;
+import com.bootcamp.api_library.respository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -16,11 +17,11 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public Book createBook(Book book) {
+    public Book create(Book book) {
         return bookRepository.save(book);
     }
 
-    public List<BookSummaryDTO> getAllBooks() {
+    public List<BookSummaryDTO> readAll() {
         return bookRepository.findAll()
                 .stream()
                 .map(book -> new BookSummaryDTO(
@@ -31,28 +32,25 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<Book> getBookById(UUID id) {
+    public Optional<Book> readById(UUID id) {
         return bookRepository.findById(id);
     }
 
-    public Book updateBook(UUID id, Book bookDetails) {
+    public Book update(UUID id, Book bookDetails) {
         Optional<Book> foundBook = bookRepository.findById(id);
 
-        if(foundBook.isPresent()) {
-            Book book = foundBook.get();
-            book.setTitle(bookDetails.getTitle());
-            book.setAuthors(bookDetails.getAuthors());
-            book.setIsbn(bookDetails.getIsbn());
-            book.setDescription(bookDetails.getDescription());
-            book.setGenres(bookDetails.getGenres());
+        if(foundBook.isEmpty()) throw new ResourceNotFoundException("Book not found.");
 
-            return bookRepository.save(book);
-        }
-
-        throw new RuntimeException("Book with id " + id + " not found.");
+        Book book = foundBook.get();
+        book.setTitle(bookDetails.getTitle());
+        book.setAuthors(bookDetails.getAuthors());
+        book.setIsbn(bookDetails.getIsbn());
+        book.setDescription(bookDetails.getDescription());
+        book.setGenres(bookDetails.getGenres());
+        return bookRepository.save(book);
     }
 
-    public boolean deleteBook(UUID id) {
+    public boolean delete(UUID id) {
         if (bookRepository.existsById(id)) {
             bookRepository.deleteById(id);
             return true;
